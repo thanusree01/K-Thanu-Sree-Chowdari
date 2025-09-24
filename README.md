@@ -82,12 +82,6 @@ Implemented as a **Python console application** where the user enters numbers at
 - Outputs a dictionary showing counts for each divisor from 1 to 9.
 - Handles dynamic input from the user.
 
-## Comments / Notes
-- Example usage:
-```python
-user_input = input("Enter numbers separated by spaces: ")
-nums = list(map(int, user_input.split()))
-counter = MultipleCounter(nums)
-print(counter.count_multiples())
+
 
 

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Odd Series Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: white;
+        }
+
+        .container {
+            background: rgb(248, 245, 234);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: black;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 12px;
+            border: 1px solid white;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            background: #d125eb;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            background: blue;
+        }
+
+        .output {
+            font-size: 16px;
+            color: black;
+            min-height: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Odd Series Generator</h1>
+        <input id="inputA" type="number" placeholder="Enter a number" />
+        <button onclick="generateSeries()">Generate</button>
+        <div id="output" class="output"></div>
+    </div>
+    <script>
+        class OddSeries {
+            constructor(n) {
+                this.n = parseInt(n, 10);
+            }
+            generate() {
+                if (isNaN(this.n) || this.n < 1) {
+                    return [];
+                }
+                const limit = this.n % 2 === 1 ? this.n : this.n - 1;
+                const result = [];
+                for (let i = 1; i <= limit; i += 2) {
+                    result.push(i);
+                }
+                return result;
+            }
+        }
+        function generateSeries() {
+            const inputVal = document.getElementById("inputA").value;
+            const series = new OddSeries(inputVal).generate();
+            document.getElementById("output").textContent =
+                series.length ? series.join(", ") : "Please enter a positive integer.";
+        }
+    </script>
+</body>
+
+</html>

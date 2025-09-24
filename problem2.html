@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Odd Series Generator</title>
+    <style>
+        body {
+            font-family: system-ui, "Segoe UI", "Helvetica Neue", Arial;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(180deg, #f7fafc, #eef2f7);
+            color: #111827;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 22px rgba(32, 33, 36, 0.08);
+            padding: 24px;
+            width: 360px;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0 0 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid rebeccapurple;
+            box-sizing: border-box;
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background: burlywood;
+            color: white;
+        }
+
+        button.secondary {
+            background: burlywood;
+        }
+
+        .output {
+            margin-top: 16px;
+            min-height: 36px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed #afc2e9;
+            background: #ffffff;
+            font-size: 15px;
+            white-space: pre-wrap;
+        }
+
+        .error {
+            color: #b91c1c;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card" role="application" aria-labelledby="title">
+        <h1 id="title">Odd Series Generator</h1>
+        <label for="inputA">Enter a (positive integer):</label>
+        <input id="inputA" type="number" min="1" step="1" placeholder="e.g. 5" aria-describedby="hint" />
+        <div class="controls">
+            <button id="generateBtn">Generate</button>
+            <button id="clearBtn" class="secondary">Clear</button>
+        </div>
+        <div id="output" class="output" aria-live="polite"></div>
+    </div>
+    <script>
+        class OddSeries {
+            constructor(n) {
+                this.n = Number(n);
+            }
+            isValid() {
+                return Number.isInteger(this.n) && this.n > 0;
+            }
+            generate() {
+                if (!this.isValid()) {
+                    throw new Error('Input must be a positive integer.');
+                }
+                const result = new Array(this.n);
+                for (let i = 0; i < this.n; i++) {
+                    result[i] = 2 * i + 1;
+                }
+                return result;
+            }
+        }
+        const inputA = document.getElementById('inputA');
+        const generateBtn = document.getElementById('generateBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const outputEl = document.getElementById('output');
+        generateBtn.addEventListener('click', () => {
+            const value = inputA.value;
+            const n = Number(value);
+            try {
+                const series = new OddSeries(n);
+                if (!series.isValid()) {
+                    outputEl.innerHTML = '<span class="error">Please enter a positive integer (1 or greater).</span>';
+                    return;
+                }
+                const arr = series.generate();
+                outputEl.textContent = arr.join(', ');
+            } catch (err) {
+                outputEl.innerHTML = `<span class="error">${err.message}</span>`;
+            }
+        });
+        clearBtn.addEventListener('click', () => {
+            inputA.value = '';
+            outputEl.textContent = '';
+            inputA.focus();
+        });
+        inputA.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+    </script>
+</body>
+
+</html>
